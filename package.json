@@ -1,0 +1,31 @@
+{
+  "name": "hono-ssr-react-routing",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --mode client && vite build",
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@hono/node-server": "1.14.4",
+    "@tanstack/react-router": "1.121.27",
+    "hono": "^4.8.2",
+    "next-ssr": "^1.2.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "1.6.2",
+    "@hono/vite-dev-server": "^0.19.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "6.3.5"
+  },
+  "author": "SoraKumo <info@croud.jp>",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": "https://github.com/SoraKumo001/hono-ssr-react-routing"
+}
