@@ -6,7 +6,7 @@ import build from "@hono/vite-build/node";
 export default defineConfig(({ mode }) => {
   return {
     ssr: {
-      noExternal: mode !== "client" || undefined,
+      noExternal: process.env.NODE_ENV !== "development" || undefined,
       resolve: {
         externalConditions: ["worker"],
       },

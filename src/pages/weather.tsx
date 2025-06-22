@@ -1,5 +1,5 @@
 import { SSRHead, useSSR } from "next-ssr";
-import { useRouter } from "../Components/RouterProvider";
+import { Link, useParams } from "@tanstack/react-router";
 
 export interface WeatherType {
   publishingOffice: string;
@@ -29,8 +29,8 @@ const fetchWeather = (id: number): Promise<WeatherType> =>
  * Components for displaying weather information
  */
 
-const Page = ({ code }: { code: number }) => {
-  const router = useRouter();
+const Page = () => {
+  const { code } = useParams({ from: "/weather/$code" });
   const { data, reload, isLoading } = useSSR<WeatherType>(
     () => fetchWeather(code),
     { key: code }
@@ -59,15 +59,7 @@ const Page = ({ code }: { code: number }) => {
             loading
           </div>
         )}
-        <a
-          href=".."
-          onClick={(e) => {
-            e.preventDefault();
-            router.push("..");
-          }}
-        >
-          ⏪️Home
-        </a>
+        <Link to="../..">⏪️Home</Link>
         <h1>{targetArea}</h1>
         <button onClick={reload}>Reload</button>
         <div>

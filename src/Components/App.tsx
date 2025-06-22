@@ -1,18 +1,78 @@
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  RouterProvider,
+  type Router,
+} from "@tanstack/react-router";
 import Home from "../pages";
 import Weather from "../pages/weather";
-import { useRouter } from "./RouterProvider";
+import { SSRBodyRoot, SSRHeadRoot, SSRProvider } from "next-ssr";
+import { useMemo } from "react";
 
-export function App() {
-  const router = useRouter();
-  const paths = router.url.pathname.slice(1).split(/\//);
+const rootRoute = createRootRoute({
+  component: () => {
+    return <Outlet />;
+  },
+});
 
-  const page =
-    paths.length === 1 && paths[0] === "" ? (
-      <Home />
-    ) : paths.length === 2 && paths[0] === "weather" ? (
-      <Weather code={Number(paths[1])} />
-    ) : undefined;
-  if (!page) throw new Error("Not found");
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: Home,
+});
 
-  return <>{page}</>;
+const weatherRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/weather/$code",
+  component: Weather,
+});
+
+export const routeTree = rootRoute.addChildren([indexRoute, weatherRoute]);
+
+export function App({ router }: { router: Router<any> }) {
+  return (
+    <html>
+      <SSRProvider>
+        <head>
+          <SSRHeadRoot />
+          <meta charSet="utf-8" />
+          <meta content="width=device-width, initial-scale=1" name="viewport" />
+          {import.meta.env?.DEV && (
+            <>
+              <script
+                type="module"
+                dangerouslySetInnerHTML={{
+                  __html: `
+              import RefreshRuntime from "/@react-refresh"
+              RefreshRuntime.injectIntoGlobalHook(window)
+              window.$RefreshReg$ = () => {}
+              window.$RefreshSig$ = () => (type) => type
+              window.__vite_plugin_react_preamble_installed__ = true`,
+                }}
+              />
+              <script type="module" src="/@vite/client" />
+            </>
+          )}
+          <link
+            rel="stylesheet"
+            href="https://cdn.simplecss.org/simple.min.css"
+          />
+          {import.meta.env?.DEV ? (
+            <script type="module" src="/src/client.tsx"></script>
+          ) : (
+            <script type="module" src="/static/client.js"></script>
+          )}
+        </head>
+        <body>
+          <div id="root">
+            <RouterProvider router={router} />
+          </div>
+          <SSRBodyRoot />
+        </body>
+      </SSRProvider>
+    </html>
+  );
 }

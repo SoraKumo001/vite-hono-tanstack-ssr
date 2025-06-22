@@ -1,10 +1,9 @@
 import { hydrateRoot } from "react-dom/client";
-import { App } from "./Components/App";
-import { Html } from "./Components/Html";
+import { App, routeTree } from "./Components/App";
+import { createRouter } from "@tanstack/react-router";
 
-hydrateRoot(
-  document,
-  <Html url={location.href}>
-    <App />
-  </Html>
-);
+const router = createRouter({
+  routeTree,
+});
+
+hydrateRoot(document, <App router={router} />);

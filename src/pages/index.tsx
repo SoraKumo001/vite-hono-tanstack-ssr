@@ -1,5 +1,6 @@
 import { SSRHead, useSSR } from "next-ssr";
 import { useRouter } from "../Components/RouterProvider";
+import { Link } from "@tanstack/react-router";
 
 interface Center {
   name: string;
@@ -23,7 +24,6 @@ const fetchCenters = (): Promise<Centers> =>
     );
 
 const Page = () => {
-  const router = useRouter();
   const { data } = useSSR<Centers>(fetchCenters, { key: "centers" });
   if (!data) return <div>loading</div>;
   return (
@@ -35,15 +35,7 @@ const Page = () => {
         {data &&
           Object.entries(data.offices).map(([code, { name }]) => (
             <div key={code}>
-              <a
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(`/weather/${code}`);
-                }}
-                href={`/weather/${code}`}
-              >
-                {name}
-              </a>
+              <Link to={`/weather/${code}`}>{name}</Link>
             </div>
           ))}
       </div>

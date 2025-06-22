@@ -11,6 +11,7 @@
   "dependencies": {
     "@hono/node-server": "1.14.4",
     "@tanstack/react-router": "1.121.27",
+    "@tanstack/react-start": "1.121.32",
     "hono": "^4.8.2",
     "next-ssr": "^1.2.5",
     "react": "^19.1.0",
