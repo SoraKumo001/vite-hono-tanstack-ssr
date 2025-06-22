@@ -1,14 +1,18 @@
 import {
   RouterProvider,
-  type AnyRoute,
-  type Router,
+  Scripts,
+  type AnyRouter,
 } from "@tanstack/react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { SSRProvider } from "react-query-ssr";
 
-export function App({ router }: { router: Router<AnyRoute> }) {
+export function App<TRouter extends AnyRouter>({
+  router,
+}: {
+  router: TRouter;
+}) {
   const [queryClient] = useState(
     () =>
       new QueryClient({ defaultOptions: { queries: { staleTime: 60 * 1000 } } })

@@ -2,6 +2,7 @@ import devServer from "@hono/vite-dev-server";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import build from "@hono/vite-build/node";
+import tanstackRouter from "@tanstack/router-plugin/vite";
 
 export default defineConfig(({ mode }) => {
   return {
@@ -26,6 +27,10 @@ export default defineConfig(({ mode }) => {
           }
         : undefined,
     plugins: [
+      tanstackRouter({
+        target: "react",
+        autoCodeSplitting: true,
+      }),
       react(),
       mode !== "client" &&
         build({

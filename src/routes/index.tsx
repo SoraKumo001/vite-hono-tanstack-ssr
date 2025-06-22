@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { enableSSR } from "react-query-ssr";
 
@@ -46,4 +46,7 @@ const Page = () => {
     </>
   );
 };
-export default Page;
+
+export const Route = createFileRoute("/")({
+  component: Page,
+});

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { enableSSR } from "react-query-ssr";
 
 export interface WeatherType {
@@ -77,4 +77,6 @@ const Page = () => {
   );
 };
 
-export default Page;
+export const Route = createFileRoute("/weather/$code")({
+  component: Page,
+});
