@@ -1,43 +1,22 @@
 import {
-  createMemoryHistory,
-  createRootRoute,
-  createRoute,
-  createRouter,
-  Outlet,
   RouterProvider,
+  type AnyRoute,
   type Router,
 } from "@tanstack/react-router";
-import Home from "../pages";
-import Weather from "../pages/weather";
-import { SSRBodyRoot, SSRHeadRoot, SSRProvider } from "next-ssr";
-import { useMemo } from "react";
 
-const rootRoute = createRootRoute({
-  component: () => {
-    return <Outlet />;
-  },
-});
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
+import { SSRProvider } from "react-query-ssr";
 
-const indexRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: Home,
-});
-
-const weatherRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/weather/$code",
-  component: Weather,
-});
-
-export const routeTree = rootRoute.addChildren([indexRoute, weatherRoute]);
-
-export function App({ router }: { router: Router<any> }) {
+export function App({ router }: { router: Router<AnyRoute> }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({ defaultOptions: { queries: { staleTime: 60 * 1000 } } })
+  );
   return (
-    <html>
-      <SSRProvider>
+    <html lang="ja">
+      <QueryClientProvider client={queryClient}>
         <head>
-          <SSRHeadRoot />
           <meta charSet="utf-8" />
           <meta content="width=device-width, initial-scale=1" name="viewport" />
           {import.meta.env?.DEV && (
@@ -67,12 +46,11 @@ export function App({ router }: { router: Router<any> }) {
           )}
         </head>
         <body>
-          <div id="root">
+          <SSRProvider>
             <RouterProvider router={router} />
-          </div>
-          <SSRBodyRoot />
+          </SSRProvider>
         </body>
-      </SSRProvider>
+      </QueryClientProvider>
     </html>
   );
 }

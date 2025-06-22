@@ -1,6 +1,6 @@
-import { SSRHead, useSSR } from "next-ssr";
-import { useRouter } from "../Components/RouterProvider";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { enableSSR } from "react-query-ssr";
 
 interface Center {
   name: string;
@@ -24,16 +24,20 @@ const fetchCenters = (): Promise<Centers> =>
     );
 
 const Page = () => {
-  const { data } = useSSR<Centers>(fetchCenters, { key: "centers" });
-  if (!data) return <div>loading</div>;
+  const query = useQuery({
+    ...enableSSR,
+    queryKey: ["centers"],
+    queryFn: () => fetchCenters(),
+  });
+
+  if (!query.data) return <div>loading</div>;
   return (
     <>
-      <SSRHead>
-        <title>天気のエリア一覧</title>
-      </SSRHead>
+      <title>天気のエリア一覧</title>
+
       <div>
-        {data &&
-          Object.entries(data.offices).map(([code, { name }]) => (
+        {query.data &&
+          Object.entries(query.data.offices).map(([code, { name }]) => (
             <div key={code}>
               <Link to={`/weather/${code}`}>{name}</Link>
             </div>

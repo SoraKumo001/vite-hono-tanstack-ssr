@@ -1,5 +1,6 @@
-import { SSRHead, useSSR } from "next-ssr";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
+import { enableSSR } from "react-query-ssr";
 
 export interface WeatherType {
   publishingOffice: string;
@@ -31,23 +32,26 @@ const fetchWeather = (id: number): Promise<WeatherType> =>
 
 const Page = () => {
   const { code } = useParams({ from: "/weather/$code" });
-  const { data, reload, isLoading } = useSSR<WeatherType>(
-    () => fetchWeather(code),
-    { key: code }
-  );
-  if (!data) return <div>loading</div>;
-  const { targetArea, reportDatetime, headlineText, text } = data;
+  const query = useQuery({
+    ...enableSSR,
+    queryKey: ["weather", code],
+    queryFn: () => fetchWeather(code),
+  });
+
+  if (!query.data) return <div>loading</div>;
+  const { targetArea, reportDatetime, headlineText, text } = query.data;
   return (
     <>
-      <SSRHead>
-        <title>{`${targetArea} の天気`}</title>
-      </SSRHead>
+      <title>{`${targetArea} の天気`}</title>
+
       <div
         style={
-          isLoading ? { background: "gray", position: "relative" } : undefined
+          query.isLoading
+            ? { background: "gray", position: "relative" }
+            : undefined
         }
       >
-        {isLoading && (
+        {query.isLoading && (
           <div
             style={{
               position: "absolute",
@@ -61,7 +65,7 @@ const Page = () => {
         )}
         <Link to="../..">⏪️Home</Link>
         <h1>{targetArea}</h1>
-        <button onClick={reload}>Reload</button>
+        {/* <button onClick={reload}>Reload</button> */}
         <div>
           {new Date(reportDatetime).toLocaleString("ja-JP", {
             timeZone: "JST",

@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { renderToReadableStream } from "react-dom/server.browser";
-import { App, routeTree } from "./Components/App";
+import { App } from "./App";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { createMemoryHistory, createRouter } from "@tanstack/react-router";
+import { routeTree } from "./root";
 
 type Env = {};
 
@@ -23,7 +24,6 @@ app.get("*", async (c) => {
       onError: () => {},
     });
     await stream.allReady;
-
     return c.body(stream, {
       headers: {
         "Content-Type": "text/html",

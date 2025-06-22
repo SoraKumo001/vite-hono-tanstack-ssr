@@ -1,6 +1,7 @@
 import { hydrateRoot } from "react-dom/client";
-import { App, routeTree } from "./Components/App";
+import { App } from "./App";
 import { createRouter } from "@tanstack/react-router";
+import { routeTree } from "./root";
 
 const router = createRouter({
   routeTree,
