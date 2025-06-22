@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
       resolve: {
         externalConditions: ["worker"],
       },
-      target: "webworker",
     },
     build:
       mode === "client"
@@ -23,6 +22,7 @@ export default defineConfig(({ mode }) => {
                 entryFileNames: () => {
                   return "static/[name].js";
                 },
+                assetFileNames: "static/tailwind.css",
               },
             },
           }
