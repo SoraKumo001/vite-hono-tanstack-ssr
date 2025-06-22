@@ -20,7 +20,7 @@ const fetchCenters = (): Promise<Centers> =>
     .then(
       // Additional weights (500 ms)
       (r) =>
-        new Promise((resolve) => setTimeout(() => resolve(r as Centers), 500))
+        new Promise((resolve) => setTimeout(() => resolve(r as Centers), 100))
     );
 
 const Page = () => {

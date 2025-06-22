@@ -22,7 +22,7 @@ const fetchWeather = (id: number): Promise<WeatherType> =>
       // Additional weights (500 ms)
       (r) =>
         new Promise((resolve) =>
-          setTimeout(() => resolve(r as WeatherType), 500)
+          setTimeout(() => resolve(r as WeatherType), 100)
         )
     );
 
@@ -43,15 +43,14 @@ const Page = () => {
   return (
     <>
       <title>{`${targetArea} の天気`}</title>
-
       <div
         style={
-          query.isLoading
+          query.isFetching
             ? { background: "gray", position: "relative" }
             : undefined
         }
       >
-        {query.isLoading && (
+        {query.isFetching && (
           <div
             style={{
               position: "absolute",
@@ -65,7 +64,7 @@ const Page = () => {
         )}
         <Link to="../..">⏪️Home</Link>
         <h1>{targetArea}</h1>
-        {/* <button onClick={reload}>Reload</button> */}
+        <button onClick={() => query.refetch()}>Reload</button>
         <div>
           {new Date(reportDatetime).toLocaleString("ja-JP", {
             timeZone: "JST",

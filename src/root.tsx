@@ -6,6 +6,9 @@ const rootRoute = createRootRoute({
   component: () => {
     return <Outlet />;
   },
+  notFoundComponent: () => {
+    return <p>This setting page doesn't exist!</p>;
+  },
 });
 
 const indexRoute = createRoute({
