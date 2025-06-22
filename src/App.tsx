@@ -1,9 +1,5 @@
-import {
-  RouterProvider,
-  Scripts,
-  type AnyRouter,
-} from "@tanstack/react-router";
-
+import tailwind from "./tailwind.css?url";
+import { RouterProvider, type AnyRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { SSRProvider } from "react-query-ssr";
@@ -23,6 +19,7 @@ export function App<TRouter extends AnyRouter>({
         <head>
           <meta charSet="utf-8" />
           <meta content="width=device-width, initial-scale=1" name="viewport" />
+          <link href={`${tailwind}`} rel="stylesheet" />
           {import.meta.env?.DEV && (
             <>
               <script
@@ -39,17 +36,13 @@ export function App<TRouter extends AnyRouter>({
               <script type="module" src="/@vite/client" />
             </>
           )}
-          <link
-            rel="stylesheet"
-            href="https://cdn.simplecss.org/simple.min.css"
-          />
           {import.meta.env?.DEV ? (
             <script type="module" src="/src/client.tsx"></script>
           ) : (
             <script type="module" src="/static/client.js"></script>
           )}
         </head>
-        <body>
+        <body className="p-2">
           <SSRProvider>
             <RouterProvider router={router} />
           </SSRProvider>

@@ -43,35 +43,43 @@ const Page = () => {
   return (
     <>
       <title>{`${targetArea} の天気`}</title>
+      <Link className="btn btn-xs" to="../..">
+        ⏪️Home
+      </Link>
       <div
-        style={
-          query.isFetching
-            ? { background: "gray", position: "relative" }
-            : undefined
+        className={
+          "mt-2 rounded-lg relative " +
+          (query.isFetching ? "bg-gray-200" : undefined)
         }
       >
-        {query.isFetching && (
-          <div
-            style={{
-              position: "absolute",
-              color: "white",
-              top: "50%",
-              left: "50%",
-            }}
-          >
-            loading
-          </div>
-        )}
-        <Link to="../..">⏪️Home</Link>
-        <h1>{targetArea}</h1>
-        <button onClick={() => query.refetch()}>Reload</button>
         <div>
-          {new Date(reportDatetime).toLocaleString("ja-JP", {
-            timeZone: "JST",
-          })}
+          {query.isFetching && (
+            <div
+              style={{
+                position: "absolute",
+                color: "white",
+                top: "50%",
+                left: "50%",
+              }}
+            >
+              loading
+            </div>
+          )}
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => query.refetch()}
+          >
+            Reload
+          </button>
+          <h1 className="text-2xl">{targetArea}</h1>
+          <div>
+            {new Date(reportDatetime).toLocaleString("ja-JP", {
+              timeZone: "JST",
+            })}
+          </div>
+          <div>{headlineText}</div>
+          <div className="whitespace-pre">{text}</div>
         </div>
-        <div>{headlineText}</div>
-        <div style={{ whiteSpace: "pre-wrap" }}>{text}</div>
       </div>
     </>
   );

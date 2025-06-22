@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import build from "@hono/vite-build/node";
 import tanstackRouter from "@tanstack/router-plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig(({ mode }) => {
   return {
@@ -29,7 +30,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tanstackRouter({
         target: "react",
-        autoCodeSplitting: true,
+        // autoCodeSplitting: process.env.NODE_ENV !== "development",
       }),
       react(),
       mode !== "client" &&
@@ -40,6 +41,7 @@ export default defineConfig(({ mode }) => {
         injectClientScript: false,
         entry: "src/server.tsx",
       }),
+      tailwindcss(),
     ],
   };
 });

@@ -34,12 +34,16 @@ const Page = () => {
   return (
     <>
       <title>天気のエリア一覧</title>
-
       <div>
         {query.data &&
           Object.entries(query.data.offices).map(([code, { name }]) => (
-            <div key={code}>
-              <Link to={`/weather/${code}`}>{name}</Link>
+            <div key={code} className="grid gap-1">
+              <Link
+                to={`/weather/${code}`}
+                className="hover:underline text-blue-800"
+              >
+                {name}
+              </Link>
             </div>
           ))}
       </div>
