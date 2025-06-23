@@ -1,7 +1,7 @@
 import { hydrateRoot } from "react-dom/client";
-import { App } from "./App";
 import { router } from "./router";
+import { RouterProvider } from "@tanstack/react-router";
 
-hydrateRoot(document, <App router={router} />, {
+hydrateRoot(document, <RouterProvider router={router} />, {
   onRecoverableError: () => {},
 });
