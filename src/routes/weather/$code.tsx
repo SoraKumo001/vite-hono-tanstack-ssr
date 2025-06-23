@@ -48,8 +48,7 @@ const Page = () => {
       </Link>
       <div
         className={
-          "mt-2 rounded-lg relative " +
-          (query.isFetching ? "bg-gray-200" : undefined)
+          "mt-2 rounded-lg relative " + (query.isFetching ? "bg-gray-200" : "")
         }
       >
         <div>

@@ -5,7 +5,7 @@ import build from "@hono/vite-build/node";
 import tanstackRouter from "@tanstack/router-plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   return {
     ssr: {
       noExternal: process.env.NODE_ENV !== "development" || undefined,
@@ -20,9 +20,9 @@ export default defineConfig(({ mode }) => {
               input: ["src/client.tsx"],
               output: {
                 entryFileNames: () => {
-                  return "static/[name].js";
+                  return "assets/[name].js";
                 },
-                assetFileNames: "static/tailwind.css",
+                assetFileNames: "assets/tailwind.css",
               },
             },
           }
@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tanstackRouter({
         target: "react",
-        // autoCodeSplitting: process.env.NODE_ENV !== "development",
+        autoCodeSplitting: command === "build",
       }),
       react(),
       mode !== "client" &&

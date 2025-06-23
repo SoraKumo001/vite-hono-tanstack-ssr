@@ -4,17 +4,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build",
-    "start": "node ./dist && echo 'http://localhost:3000'"
+    "build": "vite build --m client && vite build",
+    "start": "node ./dist && echo http://localhost:3000"
   },
   "dependencies": {
     "@hono/node-server": "1.14.4",
     "@tanstack/react-query": "5.81.2",
-    "@tanstack/react-router": "1.121.27",
+    "@tanstack/react-router": "1.121.33",
     "hono": "^4.8.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-query-ssr": "1.0.2"
+    "react-query-ssr": "1.0.3"
   },
   "devDependencies": {
     "@hono/vite-build": "1.6.2",
@@ -23,7 +23,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
-    "@tanstack/router-plugin": "1.121.29",
+    "@tanstack/router-plugin": "1.121.33",
     "daisyui": "5.0.43",
     "tailwindcss": "4.1.10",
     "vite": "6.3.5"
